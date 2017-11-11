@@ -4,6 +4,7 @@ import (
 	"net"
 	"sync"
 	"encoding/json"
+	"log"
 )
 
 type Config struct {
@@ -69,7 +70,5 @@ func (g *GynDNS) Run() {
 	go g.runHTTP(g.errChan)
 	go g.runDNS(g.errChan)
 
-	for err := range g.errChan {
-		panic(err)
-	}
+	log.Fatal(<-g.errChan)
 }
