@@ -29,6 +29,10 @@ func (g *GynDNS) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		http.Error(rw, "Username "+username+" is not registered", 403)
 		return
 	}
+	if user.Password != password {
+		http.Error(rw, "Mismatching password for user "+username, 403)
+		return
+	}
 
 	r.ParseForm()
 
