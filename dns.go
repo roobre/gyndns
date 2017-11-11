@@ -43,8 +43,10 @@ func (g *GynDNS) ServeDNS(rw dns.ResponseWriter, r *dns.Msg) {
 					},
 					A: ip,
 				})
+				log.Println(q.Name + " A " + ip.String())
 			} else {
 				response.Rcode = dns.RcodeNameError
+				log.Println("Hostname " + q.Name + " not found in map")
 			}
 
 			rw.WriteMsg(response)
