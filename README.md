@@ -1,5 +1,8 @@
 # GynDNS
 
+[![GoDoc (Implying there are any actually useful docs here)](https://godoc.org/roob.re/gyndns?status.svg)](https://godoc.org/roob.re/gyndns)
+[![Build status](https://api.travis-ci.org/roobre/gyndns.svg?branch=master)](https://travis-ci.org/roobre/gyndns)
+
 GynDNS is an open source, self-hosted solution for dynamic DNS.
 It is compatible with noip and dyndns clients, as long as you manage to point them to wherever you host gyndns.
 
