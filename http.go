@@ -13,8 +13,10 @@ const IP_KEY = "myip"
 const IP_HEADER = "X-Real-IP"
 
 func (g *GynDNS) runHTTP(errChan chan error) {
-	log.Println("Starting HTTP server...")
-	errChan <- http.ListenAndServe(fmt.Sprintf("%s:%d", g.HTTPAddress, g.HTTPPort), g)
+	addr := fmt.Sprintf("%s:%d", g.HTTPAddress, g.HTTPPort)
+	log.Printf("Starting HTTP server at %s...", addr)
+
+	errChan <- http.ListenAndServe(addr, g)
 }
 
 func (g *GynDNS) ServeHTTP(rw http.ResponseWriter, r *http.Request) {

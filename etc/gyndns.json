@@ -1,0 +1,24 @@
+{
+  "config": {
+    "httpAddress": "127.0.0.1",
+    "httpPort": 8080,
+    "dnsAddress": "127.0.0.1",
+    "dnsPort": 5533
+  },
+  "users": [
+    {
+      "username": "roobre",
+      "password": "perry",
+      "names": [
+        "home.roobre.es",
+        "perry.platypus",
+        "google.es"
+      ]
+    },
+    {
+      "username": "perry",
+      "password": "the platypus",
+      "names": []
+    }
+  ]
+}

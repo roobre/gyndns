@@ -9,8 +9,9 @@ import (
 const TTL = 16
 
 func (g *GynDNS) runDNS(errChan chan error) {
-	log.Println("Starting DNS server...")
-	errChan <- dns.ListenAndServe(fmt.Sprintf("%s:%d", g.DNSAddress, g.DNSPort), "udp", g)
+	addr := fmt.Sprintf("%s:%d", g.DNSAddress, g.DNSPort)
+	log.Printf("Starting DNS server at %s...", addr)
+	errChan <- dns.ListenAndServe(addr, "udp", g)
 }
 
 func (g *GynDNS) ServeDNS(rw dns.ResponseWriter, r *dns.Msg) {

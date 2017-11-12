@@ -3,7 +3,6 @@ package gyndns
 import (
 	"net"
 	"sync"
-	"encoding/json"
 	"log"
 )
 
@@ -15,8 +14,13 @@ type Config struct {
 	DNSPort    uint16
 }
 
+type Params struct {
+	Config *Config
+	Users  []User
+}
+
 type GynDNS struct {
-	Config
+	*Config
 
 	users map[Username]User
 
@@ -35,31 +39,33 @@ type User struct {
 }
 
 var defaultConfig = Config{
-	HTTPAddress: "0.0.0.0",
+	HTTPAddress: "127.0.0.1",
 	HTTPPort:    8000,
-	DNSAddress:  "0.0.0.0",
+	DNSAddress:  "127.0.0.1",
 	DNSPort:     5533,
 }
 
-func New(config *Config, usersFile []byte) *GynDNS {
-	if config == nil {
-		config = &defaultConfig
+func New(params *Params) *GynDNS {
+	if params == nil {
+		log.Fatal("Nil parametes supplied")
+	}
+
+	if params.Config == nil {
+		params.Config = &defaultConfig
 	}
 
 	g := &GynDNS{
-		Config:  *config,
+		Config:  params.Config,
 		errChan: make(chan error),
 		users:   make(map[Username]User),
 		leases:  make(map[string]net.IP),
 	}
 
-	var users []User
-	err := json.Unmarshal(usersFile, &users)
-	if err != nil {
-		panic(err)
+	if len(params.Users) == 0 {
+		log.Fatal("No users found in parameters file")
 	}
 
-	for _, u := range users {
+	for _, u := range params.Users {
 		g.users[u.Username] = u
 	}
 

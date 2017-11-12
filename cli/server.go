@@ -3,21 +3,21 @@ package main
 import (
 	"roob.re/gyndns"
 	"os"
-	"io/ioutil"
+	"encoding/json"
+	"log"
 )
 
 func main() {
-	usersFile, err := os.Open(os.Args[1])
+	gynFile, err := os.Open(os.Args[1])
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
-	users, err := ioutil.ReadAll(usersFile)
+	params := gyndns.Params{}
+	err = json.NewDecoder(gynFile).Decode(&params)
 	if err != nil {
-		panic(err)
+		log.Fatalf("Error parsing gyndns.json: %v", err)
 	}
 
-	server := gyndns.New(nil, users)
-
-	server.Run()
+	gyndns.New(&params).Run()
 }
